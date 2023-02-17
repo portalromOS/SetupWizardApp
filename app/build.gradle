@@ -1,0 +1,76 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.portalrom.setupwizard'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.portalrom.setupwizard"
+        minSdk 30
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+
+
+    compileOnly files('sdk/framework_intermediates/classes-header.jar')
+    compileOnly files('sdk/setupcompat/setupcompat.jar')
+    compileOnly files('sdk/setupdesign/setupdesign.jar')
+    compileOnly files('sdk/SettingsLib/SettingsLib.jar')
+    compileOnly files('sdk/telephony-common_intermediates/classes-header.jar')
+    compileOnly files('sdk/org.portalrom.lib.phone_intermediates/classes-header.jar')
+    compileOnly files('sdk/org.portalrom.platform_intermediates/classes-header.jar')
+
+    def appcompatVersion = "1.6.0"
+    def materialVersion = "1.8.0"
+    def constraintVersion = "2.1.4"
+    def lottieVersion = "3.4.0"
+    def junitVersion = "4.13.2"
+    def junitTestVersion = "1.1.5"
+    def espressoVersion = "3.5.1"
+
+    implementation "androidx.appcompat:appcompat:$appcompatVersion"
+    implementation "com.google.android.material:material:$materialVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintVersion"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$junitTestVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+
+}
+
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        Set<File> fileSet = options.bootstrapClasspath.getFiles()
+        List<File> newFileList = new ArrayList<>();
+        newFileList.add(new File("./app/sdk/framework_intermediates/classes-header.jar"))
+        newFileList.add(new File("./app/sdk/setupcompat/setupcompat.jar"))
+        newFileList.add(new File("./app/sdk/setupdesign/setupdesign.jar"))
+        newFileList.add(new File("./app/sdk/SettingsLib/SettingsLib.jar"))
+        newFileList.add(new File("./app/sdk/telephony-common_intermediates/classes-header.jar"))
+        newFileList.add(new File("./app/sdk/org.portalrom.lib.phone_intermediates/classes-header.jar"))
+        newFileList.add(new File("./app/sdk/org.portalrom.platform_intermediates/classes-header.jar"))
+        newFileList.addAll(fileSet)
+        options.bootstrapClasspath = files(newFileList.toArray())
+    }
+}

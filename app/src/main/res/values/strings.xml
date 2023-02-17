@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Setup Wizard</string>
+    <string name="welcome">Welcome to \n<i>Portal Rom OS</i></string>
+    <string name="start">Start</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
+    <string name="activity_label_empty" />
+    <string name="languageLabel">Language</string>
+    <string name="localeHint">Choose your language:</string>
+    <string name="languageIconImgDescr">Language</string>
+</resources>
