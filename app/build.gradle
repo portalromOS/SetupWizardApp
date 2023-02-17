@@ -32,6 +32,7 @@ dependencies {
 
 
 
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     compileOnly files('sdk/framework_intermediates/classes-header.jar')
     compileOnly files('sdk/setupcompat/setupcompat.jar')
     compileOnly files('sdk/setupdesign/setupdesign.jar')

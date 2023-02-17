@@ -7,7 +7,7 @@
     tools:context=".LocaleActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/localeConstraint1"
+        android:id="@+id/localeConstraintTop"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         app:layout_constraintTop_toTopOf="parent">
@@ -41,47 +41,82 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/localeConstraint1">
+        app:layout_constraintBottom_toTopOf="@id/localeConstraintBottom"
+        app:layout_constraintTop_toBottomOf="@id/localeConstraintTop">
 
-        <Spinner
-            android:id="@+id/localeSpinner"
+        <ScrollView
+            android:id="@+id/localeScroll"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="160dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="200dp"
             android:layout_marginEnd="32dp"
-            android:background="@drawable/gradient_spinner"
-            android:theme="@style/localeSpinnerStyle"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/localeScrollTextParent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/listLocales"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:theme="@style/TextH3Style"
+                    android:choiceMode="singleChoice"
+                    android:listSelector="@color/button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="34dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginStart="24dp"
             android:text="@string/localeHint"
             android:theme="@style/TextH3Style"
-            app:layout_constraintBottom_toTopOf="@+id/localeSpinner"
+            app:layout_constraintBottom_toTopOf="@+id/lineTop"
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
+            android:id="@+id/lineTop"
             android:layout_width="match_parent"
             android:layout_height="10dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            app:layout_constraintBottom_toTopOf="@+id/localeSpinner"
+            app:layout_constraintBottom_toTopOf="@+id/localeScroll"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/line" />
 
         <ImageView
+            android:id="@+id/lineBottom"
             android:layout_width="match_parent"
             android:layout_height="10dp"
+
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            app:layout_constraintTop_toBottomOf="@+id/localeSpinner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/localeScroll"
             app:srcCompat="@drawable/line" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/localeConstraintBottom"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent" >
 
 
         <Button
