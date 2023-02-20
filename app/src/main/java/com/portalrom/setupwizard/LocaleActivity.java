@@ -1,35 +1,36 @@
 package com.portalrom.setupwizard;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 
-import android.content.Intent;
-import android.graphics.Color;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.LocaleList;
 import android.view.View;
 import android.view.WindowInsetsController;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
+
+import com.android.internal.app.LocalePicker;
 import com.portalrom.setupwizard.Utils.SetupWizardUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+
 public class LocaleActivity extends AppCompatActivity {
-
-    String[] mobileArray = {"Android","IPhone","WindowsMobile","Blackberry",
-            "WebOS","Ubuntu","Windows7","Max OS X"};
-
     String selectedLocale = "";
-    
+    List<String> systemLocales = new ArrayList<String>(){};
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locale);
-
 
         final WindowInsetsController insetsController = getWindow().getInsetsController();
         SetupWizardUtils.hideTaskBar(insetsController);
@@ -38,11 +39,32 @@ public class LocaleActivity extends AppCompatActivity {
 
     }
 
+    private void loadLanguages() {
+
+        Locale[] mLocaleAdapter = Locale.getAvailableLocales();
+
+
+        for (int i = 0; i < mLocaleAdapter.length; i++) {
+
+            String l = mLocaleAdapter[i].getDisplayLanguage();
+
+            if(!l.isEmpty())
+                if(!systemLocales.contains(l))
+                    systemLocales.add(l);
+        }
+
+        Collections.sort((systemLocales));
+
+    }
 
     protected void setLocales(){
 
+        Locale mCurrentLocale = Locale.getDefault();
+
+        loadLanguages();
+
         ArrayAdapter adapter = new ArrayAdapter<String>(this,
-                R.layout.activity_listview, mobileArray);
+                R.layout.activity_listview, systemLocales);
 
         ListView listView = (ListView) findViewById(R.id.listLocales);
         listView.setAdapter(adapter);
@@ -56,4 +78,23 @@ public class LocaleActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    private void updateLocale(){
+
+        Locale local = new Locale(selectedLocale,"");
+
+        String languageToLoad = ;
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+
+        Configuration overrideConfiguration = getBaseContext().getResources().getConfiguration();
+        overrideConfiguration.setLocale(locale);
+        Context context  = createConfigurationContext(overrideConfiguration);
+        Resources resources = context.getResources();
+
+    }
+
+
 }

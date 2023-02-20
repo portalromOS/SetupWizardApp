@@ -11,4 +11,6 @@
 
     <color name="button">#31375a</color>
     <color name="buttonLight">#7367F0</color>
+
+    <color name="divider">#40000000</color>
 </resources>

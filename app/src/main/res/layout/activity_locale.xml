@@ -100,7 +100,6 @@
             android:id="@+id/lineBottom"
             android:layout_width="match_parent"
             android:layout_height="10dp"
-
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             app:layout_constraintEnd_toEndOf="parent"
