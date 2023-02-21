@@ -82,10 +82,7 @@ public class LocaleActivity extends AppCompatActivity {
 
     private void updateLocale(){
 
-        Locale local = new Locale(selectedLocale,"");
-
-        String languageToLoad = ;
-        Locale locale = new Locale(languageToLoad);
+        Locale locale = new Locale(selectedLocale);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
 
