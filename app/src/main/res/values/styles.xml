@@ -44,6 +44,7 @@
         <item name="android:fontFamily">@font/ff_monserrat_semibold</item>
         <item name="android:textSize">30dp</item>
         <item name="android:textColor">@color/textDark</item>
+
     </style>
 
     <style name="TextH3Style">

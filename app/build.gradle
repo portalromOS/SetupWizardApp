@@ -1,8 +1,16 @@
 plugins {
-    id 'com.android.application'
+     id 'com.android.application'
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('/home/retrai/.android/debug.keystore')
+            keyAlias 'androiddebugkey'
+            storePassword 'android'
+            keyPassword 'android'
+        }
+    }
     namespace 'com.portalrom.setupwizard'
     compileSdk 33
 
@@ -14,6 +22,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.debug
     }
 
     buildTypes {
