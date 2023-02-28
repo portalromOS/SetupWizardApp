@@ -7,5 +7,7 @@
     <string name="activity_label_empty" />
     <string name="languageLabel">Language</string>
     <string name="localeHint">Choose your language:</string>
-    <string name="languageIconImgDescr">Language</string>
+    <string name="networkLabel">Internet</string>
+    <string name="wifiLabel">Wi-Fi</string>
+    <string name="searchLabel">Searching for networks...</string>
 </resources>

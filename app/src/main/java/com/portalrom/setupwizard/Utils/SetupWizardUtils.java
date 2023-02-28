@@ -20,6 +20,13 @@ public  class SetupWizardUtils {
         }
     }
 
+    /*
+    public void closeAplication(View view) {
+        finishAffinity();
+        System.exit(0);
+
+    }*/
+
     public  static  void dinamicTextViews(View view){
         ConstraintLayout localeLayout;
         localeLayout = view.findViewById(R.id.localeScrollTextParent);

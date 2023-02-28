@@ -1,6 +1,7 @@
 package com.portalrom.setupwizard;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.os.ConfigurationCompat;
 import androidx.core.os.LocaleListCompat;
 
@@ -8,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.WindowInsetsController;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 
@@ -28,10 +31,12 @@ import java.util.Locale;
 
 public class LocaleActivity extends AppCompatActivity {
     int selectedLocale = 0;
+    int defaultLocale =0;
     List<Locale> systemLocales = new ArrayList<Locale>(){};
     List<String> systemLanguages = new ArrayList<String>(){};
     private Locale mCurrentLocale;
-
+    Button next;
+    View previousSelectedItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +52,7 @@ public class LocaleActivity extends AppCompatActivity {
 
     protected void setLocales(){
 
-        Locale mCurrentLocale = Locale.getDefault();
+
 
         loadLanguages();
 
@@ -57,23 +62,36 @@ public class LocaleActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.listLocales);
         listView.setAdapter(adapter);
 
+        listView.setSelection(defaultLocale-2);
+        listView.setSelected(true);
+        //listView.setItemChecked(defaultLocale,true);
+
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+
                 selectedLocale = i;
-                updateLocale();
+                next = (Button)findViewById(R.id.buttonNextL);
+                next.setVisibility(View.VISIBLE);
             }
         });
     }
 
     private void loadLanguages() {
+        Locale mCurrentLocale = Locale.getDefault();
 
         for (Locale locale : Locale.getAvailableLocales()) {
             if (locale.getLanguage().length() == 2) {
                 if (!isLanguageInList(systemLanguages, locale)) {
                     systemLocales.add(locale);
                     systemLanguages.add(locale.getDisplayLanguage());
+
+                    if(locale.getLanguage() == mCurrentLocale.getLanguage())
+                    {
+                        defaultLocale = systemLanguages.size()-1;
+                    }
                 }
             }
         }
@@ -105,9 +123,14 @@ public class LocaleActivity extends AppCompatActivity {
         com.android.internal.app.LocalePicker.updateLocale(mCurrentLocale);
     }
 
-    public void closeAplication(View view) {
-        finishAffinity();
-        System.exit(0);
+
+    public void goToNetwork(View view) {
+
+
+        updateLocale();
+
+        Intent intent = new Intent(this, NetworkActivity.class);
+        startActivity(intent);
 
     }
 }

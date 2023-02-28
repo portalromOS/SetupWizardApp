@@ -4,8 +4,19 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/background</item>
         <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/list_activated_background</item>
 
     </style>
+
+    <style name="Switch" parent="Theme.AppCompat">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">@color/buttonLight</item>
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">@color/white</item>
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">@color/white</item>
+    </style>
+
 
     <style name="CustomActivityAnimation" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
@@ -53,9 +64,15 @@
         <item name="android:textColor">@color/textLight</item>
     </style>
 
+    <style name="TextH4StyleBold">
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/textLight</item>
+    </style>
+
     <style name="TextH4Style">
         <item name="android:fontFamily">@font/ff_montserrat_regular</item>
-        <item name="android:textSize">10dp</item>
+        <item name="android:textSize">15dp</item>
         <item name="android:textColor">@color/textLight</item>
     </style>
 
