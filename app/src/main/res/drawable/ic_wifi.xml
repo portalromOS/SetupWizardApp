@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="512px"
+    android:height="512px"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+    <path
+        android:name="Layer1"
+        android:fillColor="@color/button"
+        android:pathData="M0,180.936l46.543,46.552c115.485-115.485,303.429-115.485,418.914,0L512,180.936
+    C370.837,39.763,141.173,39.763,0,180.936z"/>
+    <path
+        android:name="Layer2"
+        android:fillColor="@color/buttonLight"
+        android:pathData="M69.819,250.754l46.542,46.543c76.981-76.981,202.295-76.981,279.276,0l46.543-46.543
+		C339.503,148.085,172.496,148.085,69.819,250.754z"/>
+    <path
+        android:name="Layer3"
+        android:fillColor="@color/buttonLight"
+        android:pathData="M139.629,320.582l46.552,46.543c38.496-38.496,101.143-38.496,139.638,0l46.552-46.543
+		C308.179,256.391,203.821,256.391,139.629,320.582z"/>
+    <path
+        android:name="Layer3"
+        android:fillColor="@color/buttonLight"
+        android:pathData="M209.457,390.392L256,436.944l46.543-46.552C276.855,364.705,235.145,364.705,209.457,390.392z"/>
+
+</vector>

@@ -17,7 +17,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.portalrom.setupwizard.Utils.SetupWizardUtils;
 
@@ -31,7 +34,10 @@ public class NetworkActivity extends AppCompatActivity {
     private ListView wifiList;
     private WifiManager wifiManager;
     List<String> wifiAvailable = new ArrayList<String>(){};
-
+    TextView searchTag;
+    ListView listView;
+    ImageView imgReload;
+    BroadcastReceiver wifiScanReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +47,30 @@ public class NetworkActivity extends AppCompatActivity {
         final WindowInsetsController insetsController = getWindow().getInsetsController();
         SetupWizardUtils.hideTaskBar(insetsController);
 
+        listView = (ListView) findViewById(R.id.listWifi);
+        searchTag = (TextView) findViewById(R.id.searchLabel);
         wifiManager = (WifiManager) getApplicationContext().getSystemService(this.WIFI_SERVICE);
         wifiList = findViewById(R.id.listWifi);
+
+        setReload();
         setSwitch();
+
+    }
+
+    private void setReload() {
+
+        imgReload = (ImageView) findViewById(R.id.reload);
+        imgReload.setClickable(true);
+        imgReload.setFocusable(true);
+        imgReload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgReload.setVisibility(View.INVISIBLE);
+                setSearchLabel(true,true);
+                clearNetworks();
+                lookForNetworks();
+            }
+        });
     }
 
     private void setSwitch(){
@@ -51,9 +78,13 @@ public class NetworkActivity extends AppCompatActivity {
 
         boolean val = wifiManager.isWifiEnabled();
         onOffSwitch.setChecked(val);
+        isWifiOn=val;
 
-        if(val)
+        if(val){
+            imgReload.setVisibility(View.VISIBLE);
+            setSearchLabel(true,true);
             lookForNetworks();
+        }
 
         onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -64,41 +95,46 @@ public class NetworkActivity extends AppCompatActivity {
 
                 if(isWifiOn)
                 {
+                    setSearchLabel(true,true);
                     lookForNetworks();
                 }
-                else
+                else{
+                    setSearchLabel(false,false);
+                    imgReload.setVisibility(View.INVISIBLE);
                     clearNetworks();
+                }
+
             }
         });
     }
 
-
     private void lookForNetworks() {
+
+        if(wifiScanReceiver != null)
+            unregisterReceiver(wifiScanReceiver);
+
         WifiManager wifiManager = (WifiManager)
                 this.getSystemService(Context.WIFI_SERVICE);
 
-        BroadcastReceiver wifiScanReceiver = new BroadcastReceiver() {
+        wifiScanReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context c, Intent intent) {
                 boolean success = intent.getBooleanExtra(
                         WifiManager.EXTRA_RESULTS_UPDATED, false);
-                if (success) {
-                    scanSuccess();
-                } else {
-                    scanFailure();
+
+                if(isWifiOn){
+                    if (success) {
+                        scanSuccess();
+                    } else {
+                        scanFailure();
+                    }
                 }
             }
         };
-
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-        this.registerReceiver(wifiScanReceiver, intentFilter);
-
+        registerReceiver(wifiScanReceiver, intentFilter);
         boolean success = wifiManager.startScan();
-        if (!success) {
-            scanFailure();
-        }
-
     }
 
     private void scanSuccess() {
@@ -106,14 +142,13 @@ public class NetworkActivity extends AppCompatActivity {
         List<ScanResult> results = wifiManager.getScanResults();
 
         for (ScanResult result : results) {
-            wifiAvailable.add((String) result.venueName);
+            wifiAvailable.add((String) result.SSID);
         }
 
-        ArrayAdapter adapter = new ArrayAdapter<String>(this,
-                R.layout.activity_listview, wifiAvailable);
+        setListView(wifiAvailable);
+        imgReload.setVisibility(View.VISIBLE);
+        setSearchLabel(true,false);
 
-        ListView listView = (ListView) findViewById(R.id.listWifi);
-        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -125,6 +160,10 @@ public class NetworkActivity extends AppCompatActivity {
     }
 
     private void scanFailure() {
+
+        imgReload.setVisibility(View.VISIBLE);
+
+
         // handle failure: new scan did NOT succeed
         // consider using old scan results: these are the OLD results!
         @SuppressLint("MissingPermission")
@@ -134,7 +173,38 @@ public class NetworkActivity extends AppCompatActivity {
     }
 
     private void clearNetworks() {
-//MISSING CODE
+        //MISSING CODE
+        wifiAvailable.clear();
+        setListView(wifiAvailable);
+    }
+
+
+    private void setSearchLabel(boolean isVisible, boolean isSearchOn){
+
+        if(isSearchOn)
+            searchTag.setText(R.string.searchLabelOn);
+        else
+            searchTag.setText(R.string.searchLabelOff);
+
+        searchTag.invalidate();
+        searchTag.requestLayout();
+
+        if(isVisible)
+            searchTag.setVisibility(View.VISIBLE);
+        else
+            searchTag.setVisibility(View.INVISIBLE);
+
+        searchTag.invalidate();
+        searchTag.requestLayout();
+    }
+
+    private void setListView(List<String> array){
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,
+                R.layout.activity_listview, array);
+        listView.setAdapter(adapter);
+        listView.postInvalidate();
+
+
 
     }
 }

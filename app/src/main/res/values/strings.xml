@@ -9,5 +9,6 @@
     <string name="localeHint">Choose your language:</string>
     <string name="networkLabel">Internet</string>
     <string name="wifiLabel">Wi-Fi</string>
-    <string name="searchLabel">Searching for networks...</string>
+    <string name="searchLabelOff">Available networks</string>
+    <string name="searchLabelOn">Searching for networks...</string>
 </resources>
