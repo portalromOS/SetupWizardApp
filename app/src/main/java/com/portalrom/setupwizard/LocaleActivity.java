@@ -52,8 +52,6 @@ public class LocaleActivity extends AppCompatActivity {
 
     protected void setLocales(){
 
-
-
         loadLanguages();
 
         ArrayAdapter adapter = new ArrayAdapter<String>(this,
@@ -70,7 +68,6 @@ public class LocaleActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
 
                 selectedLocale = i;
                 next = (Button)findViewById(R.id.buttonNextL);

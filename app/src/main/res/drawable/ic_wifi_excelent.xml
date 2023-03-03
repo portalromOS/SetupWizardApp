@@ -6,7 +6,7 @@
     android:viewportHeight="512">
     <path
         android:name="Layer1"
-        android:fillColor="@color/button"
+        android:fillColor="@color/buttonLight"
         android:pathData="M0,180.936l46.543,46.552c115.485-115.485,303.429-115.485,418.914,0L512,180.936
     C370.837,39.763,141.173,39.763,0,180.936z"/>
     <path

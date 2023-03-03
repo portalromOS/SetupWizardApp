@@ -70,6 +70,12 @@
         <item name="android:textColor">@color/textLight</item>
     </style>
 
+    <style name="TextH4StyleBoldColor">
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/textDark</item>
+    </style>
+
     <style name="TextH4Style">
         <item name="android:fontFamily">@font/ff_montserrat_regular</item>
         <item name="android:textSize">15dp</item>

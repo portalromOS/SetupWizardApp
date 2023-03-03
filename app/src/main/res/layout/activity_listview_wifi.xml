@@ -3,23 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?android:attr/activatedBackgroundIndicator"
+    android:descendantFocusability="blocksDescendants">
 
     <ImageView
         android:id="@+id/wifiLogo"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:focusable="false"
+        android:clickable="false"
+        android:focusableInTouchMode="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_wifi" />
+        app:srcCompat="@drawable/ic_wifi_good" />
 
+    <ImageView
+        android:id="@+id/lockLogo"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:focusable="false"
+        android:clickable="false"
+        android:focusableInTouchMode="false"
+        app:layout_constraintBottom_toBottomOf="@id/wifiLogo"
+        app:layout_constraintStart_toEndOf="@id/wifiLogo"
+        app:layout_constraintTop_toTopOf="@id/lockLogo"
+        app:srcCompat="@drawable/ic_lock" />
     <TextView
         android:id="@+id/wifiText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_marginStart="8dp"
+        android:text="WifiName"
         android:theme="@style/TextH3Style"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/wifiLogo"
-        />
+        android:focusable="false"
+        android:clickable="false"
+        android:focusableInTouchMode="false"
+        android:textIsSelectable="false"
+        app:layout_constraintBottom_toBottomOf="@id/lockLogo"
+        app:layout_constraintStart_toEndOf="@id/lockLogo"
+        app:layout_constraintTop_toTopOf="@id/lockLogo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

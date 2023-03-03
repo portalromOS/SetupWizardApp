@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
@@ -20,24 +21,24 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.portalrom.setupwizard.Utils.Adapters.WifiCustomAdapter;
+import com.portalrom.setupwizard.Utils.Adapters.WifiDataModel;
 import com.portalrom.setupwizard.Utils.SetupWizardUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class NetworkActivity extends AppCompatActivity {
     SwitchCompat onOffSwitch;
     boolean isWifiOn=false;
-    private ListView wifiList;
     private WifiManager wifiManager;
-    List<String> wifiAvailable = new ArrayList<String>(){};
+    List<WifiDataModel> wifiAvailable = new ArrayList<WifiDataModel>(){};
     TextView searchTag;
-    ListView listView;
+
     ImageView imgReload;
     BroadcastReceiver wifiScanReceiver;
+    private static WifiCustomAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +48,9 @@ public class NetworkActivity extends AppCompatActivity {
         final WindowInsetsController insetsController = getWindow().getInsetsController();
         SetupWizardUtils.hideTaskBar(insetsController);
 
-        listView = (ListView) findViewById(R.id.listWifi);
+
         searchTag = (TextView) findViewById(R.id.searchLabel);
         wifiManager = (WifiManager) getApplicationContext().getSystemService(this.WIFI_SERVICE);
-        wifiList = findViewById(R.id.listWifi);
 
         setReload();
         setSwitch();
@@ -81,7 +81,7 @@ public class NetworkActivity extends AppCompatActivity {
         isWifiOn=val;
 
         if(val){
-            imgReload.setVisibility(View.VISIBLE);
+            //imgReload.setVisibility(View.VISIBLE);
             setSearchLabel(true,true);
             lookForNetworks();
         }
@@ -140,23 +140,21 @@ public class NetworkActivity extends AppCompatActivity {
     private void scanSuccess() {
         @SuppressLint("MissingPermission")
         List<ScanResult> results = wifiManager.getScanResults();
+        int level=0;
 
         for (ScanResult result : results) {
-            wifiAvailable.add((String) result.SSID);
+
+
+            WifiDataModel dataModel = new WifiDataModel(result.SSID,result.level,
+                    AccessPointState.getScanResultSecurity(result) != AccessPointState.OPEN);
+            wifiAvailable.add(dataModel);
         }
+
 
         setListView(wifiAvailable);
         imgReload.setVisibility(View.VISIBLE);
         setSearchLabel(true,false);
 
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                //MISSING CODE
-            }
-        });
     }
 
     private void scanFailure() {
@@ -198,13 +196,25 @@ public class NetworkActivity extends AppCompatActivity {
         searchTag.requestLayout();
     }
 
-    private void setListView(List<String> array){
-        ArrayAdapter adapter = new ArrayAdapter<String>(this,
-                R.layout.activity_listview, array);
+    private void setListView(List<WifiDataModel> array){
+
+
+        adapter= new WifiCustomAdapter((ArrayList<WifiDataModel>) array,getApplicationContext());
+
+        ListView listView = (ListView) findViewById(R.id.listWifi);
         listView.setAdapter(adapter);
-        listView.postInvalidate();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                openWifiConnect();
+            }
+        });
+    }
 
+    private void openWifiConnect() {
 
+        WifiConnectFragment connect = new WifiConnectFragment();
+        connect.show(getSupportFragmentManager(), "Connect");
     }
 }

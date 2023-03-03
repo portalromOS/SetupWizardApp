@@ -35,6 +35,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -42,10 +45,13 @@ dependencies {
 
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
     compileOnly files('sdk/framework_intermediates/classes-header.jar')
     compileOnly files('sdk/setupcompat/setupcompat.jar')
     compileOnly files('sdk/setupdesign/setupdesign.jar')
     compileOnly files('sdk/SettingsLib/SettingsLib.jar')
+    compileOnly files('sdk/service-wifi.com.android.wifi_intermediates/services-wifi.jar')
+    compileOnly files('sdk/service-wifi.com.android.wifi_intermediates/framework-wifi.jar')
     compileOnly files('sdk/telephony-common_intermediates/classes-header.jar')
     compileOnly files('sdk/org.portalrom.lib.phone_intermediates/classes-header.jar')
     compileOnly files('sdk/org.portalrom.platform_intermediates/classes-header.jar')
@@ -77,6 +83,8 @@ gradle.projectsEvaluated {
         newFileList.add(new File("./app/sdk/setupcompat/setupcompat.jar"))
         newFileList.add(new File("./app/sdk/setupdesign/setupdesign.jar"))
         newFileList.add(new File("./app/sdk/SettingsLib/SettingsLib.jar"))
+        newFileList.add(new File("./app/sdk/service-wifi.com.android.wifi_intermediates/services-wifi.jar"))
+        newFileList.add(new File("./app/sdk/service-wifi.com.android.wifi_intermediates/framework-wifi.jar"))
         newFileList.add(new File("./app/sdk/telephony-common_intermediates/classes-header.jar"))
         newFileList.add(new File("./app/sdk/org.portalrom.lib.phone_intermediates/classes-header.jar"))
         newFileList.add(new File("./app/sdk/org.portalrom.platform_intermediates/classes-header.jar"))

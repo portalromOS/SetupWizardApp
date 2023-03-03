@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
+    tools:context=".WifiConnectFragment">
+
+    <LinearLayout
+        android:id="@+id/wifiConnectTop"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="Enter the password for"
+            android:theme="@style/TextH4Style"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/wifiConnectMiddle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_width="10dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@null"
+            android:text="@string/cancel"
+            android:theme="@style/ButtonCleanStyle" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="100dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Enter the password"
+            android:theme="@style/TextH4StyleBoldColor" />
+
+        <Button
+            android:id="@+id/buttonJoin"
+            android:layout_width="10dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="@null"
+            android:text="@string/join"
+            android:theme="@style/ButtonCleanStyle" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/wifiConnectBottom"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="32dp"
+        android:layout_gravity="center"
+        android:background="@drawable/rect">
+
+
+        <TextView
+            android:id="@+id/labelPw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Password"
+            android:theme="@style/TextH4Style"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/editTextTextPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/labelPw"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

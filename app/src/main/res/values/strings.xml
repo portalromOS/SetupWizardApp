@@ -11,4 +11,6 @@
     <string name="wifiLabel">Wi-Fi</string>
     <string name="searchLabelOff">Available networks</string>
     <string name="searchLabelOn">Searching for networks...</string>
+    <string name="cancel">Cancel</string>
+    <string name="join">Join</string>
 </resources>
