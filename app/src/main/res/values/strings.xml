@@ -13,4 +13,8 @@
     <string name="searchLabelOn">Searching for networks...</string>
     <string name="cancel">Cancel</string>
     <string name="join">Join</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="connecting">Connecting...</string>
+    <string name="connected">Connected</string>
+    <string name="error">Error connecting!</string>
 </resources>

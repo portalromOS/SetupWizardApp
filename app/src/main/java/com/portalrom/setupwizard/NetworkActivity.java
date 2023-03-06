@@ -9,13 +9,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowInsetsController;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -23,22 +21,27 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.portalrom.setupwizard.Utils.Adapters.WifiCustomAdapter;
-import com.portalrom.setupwizard.Utils.Adapters.WifiDataModel;
+import com.portalrom.setupwizard.Utils.DataModel.WifiDataModel;
+import com.portalrom.setupwizard.Utils.NetworkUtils;
 import com.portalrom.setupwizard.Utils.SetupWizardUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NetworkActivity extends AppCompatActivity {
-    SwitchCompat onOffSwitch;
-    boolean isWifiOn=false;
-    private WifiManager wifiManager;
-    List<WifiDataModel> wifiAvailable = new ArrayList<WifiDataModel>(){};
-    TextView searchTag;
 
-    ImageView imgReload;
-    BroadcastReceiver wifiScanReceiver;
+    private SwitchCompat onOffSwitch;
+    private boolean isWifiOn=false;
+    private WifiManager wifiManager;
+    private List<WifiDataModel> wifiAvailable = new ArrayList<WifiDataModel>(){};
+    private TextView searchTag;
+
+    private ImageView imgReload;
+    private BroadcastReceiver wifiScanReceiver;
     private static WifiCustomAdapter adapter;
+    private WifiDataModel selectedWifi;
+    private TextView selectedStateText;
+    private Button next;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,7 @@ public class NetworkActivity extends AppCompatActivity {
 
 
         searchTag = (TextView) findViewById(R.id.searchLabel);
+        next = (Button) findViewById(R.id.buttonNextN);
         wifiManager = (WifiManager) getApplicationContext().getSystemService(this.WIFI_SERVICE);
 
         setReload();
@@ -111,7 +115,14 @@ public class NetworkActivity extends AppCompatActivity {
     private void lookForNetworks() {
 
         if(wifiScanReceiver != null)
-            unregisterReceiver(wifiScanReceiver);
+        {
+            try {
+                unregisterReceiver(wifiScanReceiver);
+
+            } catch(IllegalArgumentException e) {
+
+            }
+        }
 
         WifiManager wifiManager = (WifiManager)
                 this.getSystemService(Context.WIFI_SERVICE);
@@ -135,18 +146,21 @@ public class NetworkActivity extends AppCompatActivity {
         intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
         registerReceiver(wifiScanReceiver, intentFilter);
         boolean success = wifiManager.startScan();
+
+
     }
 
     private void scanSuccess() {
+
         @SuppressLint("MissingPermission")
         List<ScanResult> results = wifiManager.getScanResults();
         int level=0;
 
         for (ScanResult result : results) {
 
-
-            WifiDataModel dataModel = new WifiDataModel(result.SSID,result.level,
-                    AccessPointState.getScanResultSecurity(result) != AccessPointState.OPEN);
+            WifiDataModel dataModel = new WifiDataModel(result.SSID,
+                    R.string.disconnected, result.level
+                    , NetworkUtils.getScanResultSecurity(result), result);
             wifiAvailable.add(dataModel);
         }
 
@@ -155,25 +169,30 @@ public class NetworkActivity extends AppCompatActivity {
         imgReload.setVisibility(View.VISIBLE);
         setSearchLabel(true,false);
 
+        if(wifiScanReceiver != null)
+            unregisterReceiver(wifiScanReceiver);
+
     }
 
     private void scanFailure() {
 
         imgReload.setVisibility(View.VISIBLE);
 
-
         // handle failure: new scan did NOT succeed
         // consider using old scan results: these are the OLD results!
         @SuppressLint("MissingPermission")
         List<ScanResult> results = wifiManager.getScanResults();
 
-        //MISSING CODE
+        if(wifiScanReceiver != null)
+            unregisterReceiver(wifiScanReceiver);
     }
 
     private void clearNetworks() {
         //MISSING CODE
         wifiAvailable.clear();
         setListView(wifiAvailable);
+
+
     }
 
 
@@ -199,7 +218,8 @@ public class NetworkActivity extends AppCompatActivity {
     private void setListView(List<WifiDataModel> array){
 
 
-        adapter= new WifiCustomAdapter((ArrayList<WifiDataModel>) array,getApplicationContext());
+        adapter= new WifiCustomAdapter((ArrayList<WifiDataModel>) array
+                ,getApplicationContext());
 
         ListView listView = (ListView) findViewById(R.id.listWifi);
         listView.setAdapter(adapter);
@@ -207,14 +227,38 @@ public class NetworkActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                openWifiConnect();
+                selectedWifi = wifiAvailable.get(i);
+                selectedStateText = view.findViewById(R.id.wifiConnectionState);
+                selectedStateText.setText(R.string.connecting);
+
+                if(array.get(i).getLock())
+                    openWifiConnect();
+                else
+                    connectToWifi(null);
             }
         });
     }
 
     private void openWifiConnect() {
 
-        WifiConnectFragment connect = new WifiConnectFragment();
+        WifiConnectFragment connect = new WifiConnectFragment(selectedWifi.getName());
         connect.show(getSupportFragmentManager(), "Connect");
+
+    }
+
+
+    public void connectToWifi(String insertedPw){
+
+        String networkPass = insertedPw;
+        boolean isConnected = NetworkUtils.connectToNetwork(this,
+                selectedWifi,insertedPw);
+
+        if(isConnected){
+            selectedStateText.setText(R.string.connected);
+            next.setVisibility(View.VISIBLE);
+        }
+
+        else
+            selectedStateText.setText(R.string.error);
     }
 }

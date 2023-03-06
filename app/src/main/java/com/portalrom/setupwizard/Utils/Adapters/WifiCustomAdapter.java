@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.portalrom.setupwizard.R;
+import com.portalrom.setupwizard.Utils.DataModel.WifiDataModel;
 
 import java.util.ArrayList;
 
@@ -23,7 +24,7 @@ public class WifiCustomAdapter extends ArrayAdapter<WifiDataModel>
         ImageView wifiLevel;
         ImageView wifiPassword;
         TextView wifiName;
-
+        TextView wifiState;
     }
 
     public WifiCustomAdapter(ArrayList<WifiDataModel> data, Context context) {
@@ -69,6 +70,8 @@ public class WifiCustomAdapter extends ArrayAdapter<WifiDataModel>
             viewHolder.wifiLevel = (ImageView) convertView.findViewById(R.id.wifiLogo);
             viewHolder.wifiPassword = (ImageView) convertView.findViewById(R.id.lockLogo);
             viewHolder.wifiName = (TextView) convertView.findViewById(R.id.wifiText);
+            viewHolder.wifiState = (TextView) convertView.findViewById(R.id.wifiConnectionState);
+
 
             result=convertView;
 
@@ -79,6 +82,7 @@ public class WifiCustomAdapter extends ArrayAdapter<WifiDataModel>
         }
 
         viewHolder.wifiName.setText(dataModel.getName());
+        viewHolder.wifiState.setText(dataModel.getState());
         viewHolder.wifiLevel.setBackgroundResource(getDrawableByLevel(dataModel.getLevel()));
         viewHolder.wifiPassword.setBackgroundResource(getDrawableByLock(dataModel.getLock()));
 

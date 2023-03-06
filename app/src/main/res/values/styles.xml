@@ -83,6 +83,17 @@
     </style>
 
 
+    <style name="TextH5StyleBoldColor">
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:textColor">@color/textDark</item>
+    </style>
+
+    <style name="TextH5Style">
+        <item name="android:fontFamily">@font/ff_montserrat_regular</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:textColor">@color/textLight</item>
+    </style>
 
 
     </resources>

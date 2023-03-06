@@ -22,9 +22,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
-import com.portalrom.setupwizard.Utils.NetworkMonitor;
 import com.portalrom.setupwizard.Utils.PhoneMonitor;
-import com.portalrom.setupwizard.Utils.SetupWizardUtils;
 
 public class SetupWizard extends Application {
 
@@ -91,7 +89,6 @@ public class SetupWizard extends Application {
         if (LOGV) {
             Log.v(TAG, "onCreate()");
         }
-        NetworkMonitor.initInstance(this);
         PhoneMonitor.initInstance(this);
         //SetupWizardUtils.disableComponentsForMissingFeatures(this);
         //SetupWizardUtils.setMobileDataEnabled(this, false);
