@@ -40,12 +40,13 @@ android {
     }
 }
 
+
+
 dependencies {
-
-
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'com.google.code.ksoap2-android:ksoap2-android:3.6.4'
     compileOnly files('sdk/framework_intermediates/classes-header.jar')
     compileOnly files('sdk/setupcompat/setupcompat.jar')
     compileOnly files('sdk/setupdesign/setupdesign.jar')

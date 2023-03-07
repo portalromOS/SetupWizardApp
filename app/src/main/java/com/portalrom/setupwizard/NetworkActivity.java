@@ -261,4 +261,11 @@ public class NetworkActivity extends AppCompatActivity {
         else
             selectedStateText.setText(R.string.error);
     }
+
+    public void goToSync(View view) {
+
+        Intent intent = new Intent(this, SyncRegister.class);
+        startActivity(intent);
+
+    }
 }
